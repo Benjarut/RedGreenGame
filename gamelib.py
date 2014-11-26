@@ -5,13 +5,14 @@ class SimpleGame(object):
     def __init__(self,
                  title,
                  background_color,
-                 window_size=(640,480),
+                 window_size=(800,600),
                  fps=60):
         self.title = title
         self.window_size = window_size
         self.fps = fps
         self.background_color = background_color
         self.is_terminated = False
+        self.is_started = False
 
     def __game_init(self):  
         pygame.init()
@@ -25,7 +26,10 @@ class SimpleGame(object):
             if event.type == QUIT:       
                 self.terminate()                  
             elif event.type == KEYDOWN:            
-                self.on_key_down(event.key)        
+                if event.key == pygame.K_ESCAPE:
+                    self.terminate()
+                else:
+                    self.on_key_down(event.key)
             elif event.type == KEYUP:
                 self.on_key_up(event.key)
 
@@ -40,8 +44,15 @@ class SimpleGame(object):
             self.surface.fill(self.background_color)
             self.render(self.surface)
             pygame.display.update()
+    
             self.clock.tick(self.fps)
     
+    def is_key_press(self, key):
+        keys_pressed = pygame.key.get_pressed()
+        if key < 0 or key >= len(keys_pressed):
+            return False
+        return (keys_pressed[key])
+
     def init(self):
         self.__game_init()
 

@@ -1,10 +1,10 @@
 import pygame
 from pygame.locals import *
 
-class ButtonR:
+class Button(object):
 
-    def __init__(self,color,radius = 70,appearTime=5):
-        self.pos =()
+    def __init__(self,color,pos,radius = 70,appearTime=5):
+        self.pos =pos
         self.color = color
         self.radius = radius
         self.appearTime = appearTime
@@ -13,14 +13,15 @@ class ButtonR:
         self.color = 'red'
         return self.color
 
-    def get_pos(self):
+    def get_posR(self):
         self.pos = (200,300)
-        return self.pos
+
+    def get_posL(self):
+        self.pos = (440,300)
 
     def render(self,surface):
-        pos = self.get_pos()
-        pygame.draw.circle(surface,self.color,pos,self.radius,0)
-    
+        pygame.draw.circle(surface,self.color,self.pos,self.radius,0)
+""" 
 class ButtonL(ButtonR):
     def get_pos(self):
         self.pos = (440,300)
@@ -29,7 +30,7 @@ class ButtonL(ButtonR):
     def get_color(self):
         self.color = 'green'
         return self.color
-
+"""
 
 
 
