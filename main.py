@@ -18,11 +18,14 @@ class RedGreenGame(gamelib.SimpleGame):
         self.hp = 100
         self.time = 0.0
         self.wait_press = 4.0
+        self.alpha1 = Alphabet(pos=(self.window_size[0]/2-50,400))
+        self.alpha2 = Alphabet(pos=(self.window_size[0]/2+50,400))
 
     def init(self):
         super(RedGreenGame, self).init()
         self.render_score()
         self.render_hp()
+        self.render_alphabet()
 
     def update(self):
         if self.is_key_press(K_RETURN):
@@ -43,7 +46,9 @@ class RedGreenGame(gamelib.SimpleGame):
                 self.buttonG.get_posL()
                 self.buttonR.get_posR()
 
-    
+    def render_alphabet(self):
+        self.alpha_image = self.font.render(self.alpha1.random_value(),1,RedGreenGame.BLACK)
+
     def render_score(self):
         self.score_image = self.font.render("Score = %d" % self.score, 0,RedGreenGame.WHITE)
 
@@ -59,6 +64,7 @@ class RedGreenGame(gamelib.SimpleGame):
             surface.blit(self.hp_image,(400,10))
             self.buttonR.render(surface)
             self.buttonG.render(surface)
+            surface.blit(self.alpha_image,(350,400))
 
 def main():
     game = RedGreenGame()

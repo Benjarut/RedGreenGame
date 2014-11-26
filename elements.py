@@ -1,4 +1,4 @@
-import pygame
+import pygame,random
 from pygame.locals import *
 
 class Button(object):
@@ -31,7 +31,18 @@ class ButtonL(ButtonR):
         self.color = 'green'
         return self.color
 """
+class Alphabet(object):
+    def __init__(self,pos):
+        self.pos = pos
+        self.value = ''
 
+    def random_value(self):
+        value ='abcdefghijklmnopqrstuvwxyz'
+        self.value = random.choice(value)
+        value =self.value
+        return value
 
+    def position(self):
+        return self.pos
 
 
