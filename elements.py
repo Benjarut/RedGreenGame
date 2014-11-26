@@ -14,10 +14,10 @@ class Button(object):
         return self.color
 
     def get_posR(self):
-        self.pos = (200,300)
+        self.pos = (300,400)
 
     def get_posL(self):
-        self.pos = (440,300)
+        self.pos = (500,400)
 
     def render(self,surface):
         pygame.draw.circle(surface,self.color,self.pos,self.radius,0)

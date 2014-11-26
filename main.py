@@ -1,4 +1,4 @@
-import pygame
+import pygame,random
 from pygame.locals import *
 
 import gamelib
@@ -6,7 +6,6 @@ import gamelib
 from elements import *
 
 class RedGreenGame(gamelib.SimpleGame):
-    time = 5
     BLACK = pygame.Color('black')
     RED = pygame.Color('red')
     WHITE = pygame.Color('white')
@@ -14,10 +13,11 @@ class RedGreenGame(gamelib.SimpleGame):
     def __init__(self):
         super(RedGreenGame, self).__init__('RedGreen',RedGreenGame.BLACK)
         self.buttonR = Button(color=RedGreenGame.RED,pos=(self.window_size[0]/2-100,400))
-        self.buttonL = Button(color=RedGreenGame.GREEN,pos=(self.window_size[1]/2+200,400))
+        self.buttonG = Button(color=RedGreenGame.GREEN,pos=(self.window_size[0]/2+100,400))
         self.score = 0
         self.hp = 100
-
+        self.time = 0.0
+        self.wait_press = 4.0
 
     def init(self):
         super(RedGreenGame, self).init()
@@ -27,7 +27,23 @@ class RedGreenGame(gamelib.SimpleGame):
     def update(self):
         if self.is_key_press(K_RETURN):
             self.is_started = True
-        
+        if self.is_started:
+            self.update_butt()
+
+    def update_butt(self):
+        self.time +=self.clock.get_time()
+        print self.time/1000.0 ,self.wait_press 
+        if self.time/1000.0 >= self.wait_press:
+            print self.time
+            self.time = 0
+            if random.randint(0,1) == 0:
+                self.buttonG.get_posR()
+                self.buttonR.get_posL()
+            else :
+                self.buttonG.get_posL()
+                self.buttonR.get_posR()
+
+    
     def render_score(self):
         self.score_image = self.font.render("Score = %d" % self.score, 0,RedGreenGame.WHITE)
 
@@ -36,12 +52,13 @@ class RedGreenGame(gamelib.SimpleGame):
             self.hp_image = self.font.render("HP : %d"% self.hp ,1,RedGreenGame.GREEN)
         else :
             self.hp_image = self.font.render("HP : %d"% self.hp ,1,RedGreenGame.Red)
+  
     def render(self, surface):
         if self.is_started:
             surface.blit(self.score_image,(10,10))
             surface.blit(self.hp_image,(400,10))
             self.buttonR.render(surface)
-            self.buttonL.render(surface)
+            self.buttonG.render(surface)
 
 def main():
     game = RedGreenGame()
