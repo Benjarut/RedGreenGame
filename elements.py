@@ -3,21 +3,20 @@ from pygame.locals import *
 
 class Button(object):
 
-    def __init__(self,color,pos,radius = 70,appearTime=5):
+    def __init__(self,color,pos,radius = 70):
         self.pos =pos
         self.color = color
         self.radius = radius
-        self.appearTime = appearTime
     
     def get_color(self):
         self.color = 'red'
         return self.color
 
     def get_posR(self):
-        self.pos = (300,400)
+        self.pos = (500,400)
 
     def get_posL(self):
-        self.pos = (500,400)
+        self.pos = (300,400)
 
     def render(self,surface):
         pygame.draw.circle(surface,self.color,self.pos,self.radius,0)
@@ -34,15 +33,21 @@ class ButtonL(ButtonR):
 class Alphabet(object):
     def __init__(self,pos):
         self.pos = pos
-        self.value = ''
+        self.value = random.choice('abcdefghijklmnopqrstuvwxyz')
 
     def random_value(self):
         value ='abcdefghijklmnopqrstuvwxyz'
         self.value = random.choice(value)
-        value =self.value
-        return value
+    
 
-    def position(self):
-        return self.pos
+    def change_posL(self):
+        self.pos = (280,350)
+        
+    def change_posR(self):
+        self.pos = (490,350)
+    
+    def render(self,surface,fontColor):
 
+        self.alpha_image = pygame.font.SysFont("Padauk",60).render(self.value,1,fontColor)
+        surface.blit(self.alpha_image,self.pos)
 
