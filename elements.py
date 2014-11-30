@@ -39,13 +39,18 @@ class Alphabet(object):
         value ='abcdefghijklmnopqrstuvwxyz'
         self.value = random.choice(value)
     
+    def get_value(self):
+        return self.value
 
-    def change_posL(self):
+    def get_posL(self):
         self.pos = (280,350)
         
-    def change_posR(self):
+    def get_posR(self):
         self.pos = (490,350)
-    
+        
+    def get_pos(self):
+        return self.pos
+
     def render(self,surface,fontColor):
 
         self.alpha_image = pygame.font.SysFont("Padauk",60).render(self.value,1,fontColor)
