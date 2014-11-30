@@ -31,7 +31,7 @@ class RedGreenGame(gamelib.SimpleGame):
     #    if self.is_key_press(K_RETURN):
     #        self.is_started = True
     #    self.check_key_pressed()
-        if self.is_started:
+        if self.is_started and not self.is_ended :
     #       self.update_butt()
     #       self.update_alpha()
             self.play_game()
@@ -73,7 +73,14 @@ class RedGreenGame(gamelib.SimpleGame):
             self.hp_image = self.font.render("HP : %d"% self.hp ,1,RedGreenGame.GREEN)
         else :
             self.hp_image = self.font.render("HP : %d"% self.hp ,1,RedGreenGame.RED)
-  
+        if self.hp <= 0:
+            self.is_started = False
+            self.is_ended = True
+
+    def restart_game(self):
+        self.hp = 100
+        self.score = 0
+
     def render(self, surface):
         if self.is_started:
             surface.blit(self.score_image,(10,10))
@@ -82,6 +89,10 @@ class RedGreenGame(gamelib.SimpleGame):
             self.buttonG.render(surface)
             self.alphaR.render(surface,RedGreenGame.BLACK)
             self.alphaG.render(surface,RedGreenGame.BLACK)
+        
+        if not self.is_started and self.is_ended : 
+            self.end_score = pygame.font.SysFont("Tlwg Typist,BoldOblique",30).render("Your Score : %d "% self.score,1,RedGreenGame.WHITE)
+            surface.blit(self.end_score,(400,250))          
 
     def play_game(self):
         self.render_score()
@@ -93,6 +104,8 @@ class RedGreenGame(gamelib.SimpleGame):
         if self.is_started == False:
             if key == K_RETURN:
                 self.is_started = True
+                self.is_ended = False
+                self.restart_game()
         print key
         alpha_tuple = (K_a,K_b,K_c,K_d,K_e,K_f,K_g,K_h,K_i,K_j,K_k,K_l,K_m,K_n,K_o,K_p,K_q,K_r,K_s,K_t,K_u,K_v,K_w,K_x,K_y,K_z)
         for i in alpha_tuple:

@@ -13,7 +13,7 @@ class SimpleGame(object):
         self.background_color = background_color
         self.is_terminated = False
         self.is_started = False
-
+        self.is_ended = False
     def __game_init(self):  
         pygame.init()
         self.clock = pygame.time.Clock()
