@@ -35,7 +35,7 @@ class RedGreenGame(gamelib.SimpleGame):
     #    if self.is_key_press(K_RETURN):
     #        self.is_started = True
     #    self.check_key_pressed()
-        
+        print self.wait_press   
         if self.is_started and not self.is_ended :
             self.bg.change_image(index = 1)
             self.play_game()
@@ -44,6 +44,7 @@ class RedGreenGame(gamelib.SimpleGame):
             self.hp -=25
             self.combo = 0
             self.time = 0
+            self.wait_press = 3.0
 
 
     def update_alpha(self):
@@ -93,6 +94,7 @@ class RedGreenGame(gamelib.SimpleGame):
     def restart_game(self):
         self.hp = 100
         self.score = 0
+        self.wait_press = 3.0
 
     def render(self, surface):
         self.bg.render(surface)
@@ -122,16 +124,15 @@ class RedGreenGame(gamelib.SimpleGame):
         self.render_score()
         self.render_hp()
         self.render_combo()
-#        self.update_alpha()
-#        self.update_butt()
         self.time += self.clock.get_time()
+    
     def on_key_up(self, key):
         if self.is_started == False:
             if key == K_RETURN:
                 self.is_started = True
                 self.is_ended = False
                 self.restart_game()
-        print key
+    #    print key
         alpha_tuple = (K_a,K_b,K_c,K_d,K_e,K_f,K_g,K_h,K_i,K_j,K_k,K_l,K_m,K_n,K_o,K_p,K_q,K_r,K_s,K_t,K_u,K_v,K_w,K_x,K_y,K_z)
         for i in alpha_tuple:
             if key == i:
@@ -139,13 +140,18 @@ class RedGreenGame(gamelib.SimpleGame):
                 self.check_hit(i)
 
     def check_hit(self,i):
-        print chr(i)
+    #    print chr(i)
 
         if chr(i) == self.alphaG.get_value():
             self.score += 5
             self.update_butt()
             self.combo += 1
-            print self.score
+            
+            if self.combo == 50:
+                if self.hp <= 90:
+                    self.hp += 5
+                else:
+                    self.score += 30
         elif chr(i) == self.alphaR.get_value():
             self.hp -= 25
             self.update_butt()
