@@ -17,7 +17,7 @@ class RedGreenGame(gamelib.SimpleGame):
         self.score = 0
         self.hp = 100
         self.time = 0.0
-        self.wait_press = 4.0
+        self.wait_press = 3.0
         self.alphaR = Alphabet(pos=(self.window_size[0]/2-110,350))
         self.alphaG = Alphabet(pos=(self.window_size[0]/2+90,350))
 
@@ -35,35 +35,40 @@ class RedGreenGame(gamelib.SimpleGame):
     #       self.update_butt()
     #       self.update_alpha()
             self.play_game()
+        print self.time
+        if self.time/1000.0 >= self.wait_press:
+            self.update_butt()
+            self.time = 0
+
 
     def update_alpha(self):
-        if self.time/1000.0 >=self.wait_press:
-            self.alphaR.random_value()
-            self.alphaG.random_value()
+#        if self.time/1000.0 >=self.wait_press:
+        self.alphaR.random_value()
+        self.alphaG.random_value()
         if self.alphaR.value == self.alphaG.value:
-            self.alphaR.random_value()
+            self.update_alpha()
         
 
     def update_butt(self):
-        self.time +=self.clock.get_time()
+    #    self.time +=self.clock.get_time()
     #    print self.time/1000.0 ,self.wait_press 
-        if self.time/1000.0 >= self.wait_press:
+    #    if self.time/1000.0 >= self.wait_press:
     #        print self.time
-            if random.randint(0,1) == 0:
-                self.buttonG.get_posR()
-                self.buttonR.get_posL()
-                self.update_alpha()
-                self.alphaG.get_posR()
-                self.alphaR.get_posL()
+        if random.randint(0,1) == 0:
+            self.buttonG.get_posR()
+            self.buttonR.get_posL()
+            self.update_alpha()
+            self.alphaG.get_posR()
+            self.alphaR.get_posL()
 
-            else :
-                self.buttonG.get_posL()
-                self.buttonR.get_posR()
-                self.update_alpha()
-                self.alphaG.get_posL()
-                self.alphaR.get_posR()
+        else :
+            self.buttonG.get_posL()
+            self.buttonR.get_posR()
+            self.update_alpha()
+            self.alphaG.get_posL()
+            self.alphaR.get_posR()
 
-            self.time = 0
+        self.time = 0
 
     def render_score(self):
         self.score_image = self.font.render("Score = %d" % self.score, 0,RedGreenGame.WHITE)
@@ -97,9 +102,9 @@ class RedGreenGame(gamelib.SimpleGame):
     def play_game(self):
         self.render_score()
         self.render_hp()
-        self.update_alpha()
-        self.update_butt()
-    
+#        self.update_alpha()
+#        self.update_butt()
+        self.time += self.clock.get_time()
     def on_key_up(self, key):
         if self.is_started == False:
             if key == K_RETURN:
@@ -131,9 +136,11 @@ class RedGreenGame(gamelib.SimpleGame):
 
         if chr(i) == self.alphaG.get_value():
             self.score += 5
+            self.update_butt()
             print self.score
         elif chr(i) == self.alphaR.get_value():
             self.hp -= 25
+            self.update_butt()
 
 def main():
     game = RedGreenGame()
