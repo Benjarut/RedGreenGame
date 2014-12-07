@@ -60,33 +60,26 @@ class Alphabet(object):
 class Background(object):
     def __init__(self):
         (self.x, self.y) = (0, 0)
-        self.images = ('res/...') # images tuple hold all image
-        self.pic = 'res/...' # first background image
+        self.images = ('res/color_background.jpg',
+                       'res/blue_bokeh.png',
+                       'res/blue_bubbles.jpg') 
+        self.pic = self.images[0]
+        self.count = 0
 
-    def change_image(self):
-        if self.count < len(self.images)-1:
-    #        print len(self.images),self.count
-            self.count += 1
-        else:
-            self.count = 1
-   #     print self.images[self.count],self.count
-        self.pic = self.images[self.count]
-        
-   #     if self.pic == "res/Nyan-cat.jpg":
-   #         self.x = -200
-   #     else :
-   #         self.x = 0
-
-
-    #    print self.pic
+    def change_image(self,index):
+        self.pic = self.images[index]
 
     def render(self,surface):
-        self.img =pygame.image.load(self.pic)
-    #    if self.pic == "res/space.jpg":
-    #        self.img =pygame.transform.scale(self.img,(800,600))
-      #  self.time += pygame.time.Clock().get_time()
-      #  if self.time/1000.0 > 3000.0:
-      #      self.change_image()
+        self.img = pygame.image.load(self.pic)
+        self.img = pygame.transform.scale(self.img,(800,600)) 
         surface.blit(self.img,(self.x,self.y))
 
-
+####################################################
+class Image(object):
+    def __init__(self,pos):
+        (self.x,self.y) = pos
+        self.pic = 'res/speedup.png'
+        
+    def render(self,surface):
+        self.img = pygame.image.load(self.pic)
+        surface.blit(self.img,(self.x,self.y))
